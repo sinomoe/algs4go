@@ -6,9 +6,11 @@ import (
 )
 
 var input utils.MyInts
+var benchInput utils.MyInts
 
 func init() {
 	input = utils.MyIntns(100, 100)
+	benchInput = utils.MyIntns(100000, 100000)
 }
 
 func TestFindSwapParis(t *testing.T) {
@@ -41,9 +43,34 @@ func TestMerge(t *testing.T) {
 	}
 }
 
+func TestMergeBU(t *testing.T) {
+	datas := make(utils.MyInts, len(input))
+	copy(datas, input)
+
+	out := MergeBU(datas)
+	if !utils.IsSorted(out) {
+		t.Fatal("insertion sort falied")
+	}
+}
+
 func BenchmarkMerge(b *testing.B) {
-	datas := utils.MyIntns(100000, 100000)
+	b.StopTimer()
+	datas := make(utils.MyInts, len(benchInput))
 	for i := 0; i < b.N; i++ {
+		copy(datas, benchInput)
+		b.StartTimer()
 		Merge(datas)
+		b.StopTimer()
+	}
+}
+
+func BenchmarkMergeBU(b *testing.B) {
+	b.StopTimer()
+	datas := make(utils.MyInts, len(benchInput))
+	for i := 0; i < b.N; i++ {
+		copy(datas, benchInput)
+		b.StartTimer()
+		MergeBU(datas)
+		b.StopTimer()
 	}
 }

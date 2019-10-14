@@ -7,9 +7,11 @@ import (
 )
 
 var input utils.MyInts
+var benchInput utils.MyInts
 
 func init() {
 	input = utils.MyIntns(100, 100)
+	benchInput = utils.MyIntns(100000, 100000)
 }
 
 func TestInsertion(t *testing.T) {
@@ -50,8 +52,12 @@ func TestFastInsertion(t *testing.T) {
 }
 
 func BenchmarkInsertion(b *testing.B) {
-	datas := utils.MyIntns(100000, 100000)
+	b.StopTimer()
+	datas := make(utils.MyInts, len(benchInput))
 	for i := 0; i < b.N; i++ {
+		copy(datas, benchInput)
+		b.StartTimer()
 		Insertion(datas)
+		b.StopTimer()
 	}
 }

@@ -23,6 +23,28 @@ func mergeSort(datas interfaces.Sortable, lo, hi int) {
 	merge(datas, lo, mid, hi)
 }
 
+// MergeBU bottom up merge sort,
+// DO NOT USE THIS CODE,
+// Because of using sort.Interface to implement this algorithm
+// We can only use swap to order the sequence instead of operating on datas direcly
+// We have to introduce some loops to calculate how to swap datas
+// So it's very slow,
+func MergeBU(datas interfaces.Sortable) interfaces.Sortable {
+	N := datas.Len()
+	for sz := 1; sz < N; sz = 2 * sz {
+		for lo := 0; lo < N-sz; lo += 2 * sz {
+			mid := lo + sz - 1
+			hi := mid + sz
+			if hi > N-1 {
+				hi = N - 1
+			}
+			merge(datas, lo, mid, hi)
+		}
+	}
+
+	return datas
+}
+
 // merge two ordered subsequence
 func merge(datas interfaces.Sortable, lo, mid, hi int) {
 	i, j := lo, mid+1
