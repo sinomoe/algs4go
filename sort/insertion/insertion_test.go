@@ -48,3 +48,10 @@ func TestFastInsertion(t *testing.T) {
 		t.Fatal("insertion sort falied")
 	}
 }
+
+func BenchmarkInsertion(b *testing.B) {
+	datas := utils.MyIntns(100000, 100000)
+	for i := 0; i < b.N; i++ {
+		Insertion(datas)
+	}
+}
